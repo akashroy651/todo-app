@@ -14,7 +14,8 @@
   step 2 :style html elements
   step 3 :find all the html elements and add listenets
   step 4 :add todo
-  step 5 :shoeMessage
-  step 6 :delete todo
-  step 7 :read todo
+  step 5 :showMessage
+  step 6 : adding todos in localStorage
+  step 7 :delete todo
+  step 8 :read todo
   
