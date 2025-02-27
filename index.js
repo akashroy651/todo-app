@@ -11,7 +11,7 @@ const showMessage = (text, status)=> {
     messageElement.textContent =text;
     messageElement.classList.add(`bg-${status}`);
     setTimeout(() => {
-        messageElement.textContent ="";
+        messageElement.textContent =" ";
         messageElement.classList.remove(`bg-${status}`)
     }, 1000)
 }
@@ -35,8 +35,18 @@ deleteButton.addEventListener("click", deleteTodo);
 };
  // deleteTodo call function use kore
  const deleteTodo = (event) =>{
-   const selectedTodo = event.target.parentElement;
-   console.log(selectedTodo)
+   const selectedTodo = event.target.parentElement.parentElement.parentElement;
+    ///// delete ar somoy ai message show hobe 
+   todoLists.removeChild(selectedTodo);
+    showMessage("todo is deleted", "danger");
+
+///  message ar sate sate localstorage theke sms delete  korar jonno
+
+
+ let todos = getTodosFromLocalstorage();
+ todos = todos.filter((todo)=> todo.todoId !== selectedTodo.id);
+ localStorage.setItem("mytodos", JSON.stringify(todos));
+
  }
 
 //  getTodosFromLocalstorage use
@@ -46,7 +56,7 @@ const getTodosFromLocalstorage = ()=>{
 }
 
 
-    // add todo
+    // add todo function use
     
 const addTodo = (event)=>{
     event.preventDefault();
@@ -73,12 +83,21 @@ const todos = getTodosFromLocalstorage()
 todos.push({todoId, todoValue});
 localStorage.setItem("mytodos", JSON.stringify(todos));
 
+//// jokon ei store kora hoye jabe tokon  input  fhaka kore dibo
+todoInput.value = "";
+}
 
+// loadTodos function use kore
+
+const loadTodos =()=>{
+    const todos = getTodosFromLocalstorage();
+    todos.map((todo)=> createTodo(todo.todoId, todo.todoValue ))
 }
 
 
 //  adding listeners
-todoForm.addEventListener("submit", addTodo)
+todoForm.addEventListener("submit", addTodo);
+window.addEventListener("DOMContentLoaded", loadTodos);
 
 
  
