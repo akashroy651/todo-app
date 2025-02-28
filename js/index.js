@@ -1,3 +1,7 @@
+import { Todo } from "./classes/Todo.js";
+
+
+
 ///////  find the element
 const container = document.querySelector(".container");
 const todoForm = document.querySelector(".todo-form");
@@ -17,12 +21,12 @@ const showMessage = (text, status)=> {
 }
 
 //  create todo 
-const createTodo = (todoId, todoValue) =>{
+const createTodo = (newTodo) =>{
     const todoElement = document.createElement("li");
-    todoElement.id =todoId;
+    todoElement.id =newTodo.todoId;
     // css theke class (li-style ) add ar jonno
     todoElement.classList.add("li-style")
-    todoElement.innerHTML =`<span> ${todoValue}</span>
+    todoElement.innerHTML =`<span> ${newTodo.todoValue}</span>
     <span> <button class="btn" id="deleteButton"> <i class="fa fa-trash"> </i> </button> </span>
     `;
 
@@ -67,10 +71,17 @@ const addTodo = (event)=>{
    //  unique id jonno ( date.now )  use kora hoyece
 
    const todoId = Date.now().toString();
-  createTodo(todoId, todoValue);
+
+   ////  ( Todo.js ) ar class use kora hoyece
+
+   const newTodo = new Todo(todoId,todoValue);
+      /// newTodo tik moto kaj korce kina tar jonno console diye check kora
+   // console.log(newTodo);
+   
+  createTodo(newTodo);
   showMessage("todo is added", "success"); 
 
-                  ////// add todo in localStorage
+         ////// add todo in localStorage
 
 // localStorage all ready todo ace kin aseta check korte casci
 // ? jodi thake se khetre (parse) kore getItem use kore same key use korbo
@@ -80,7 +91,7 @@ const addTodo = (event)=>{
 //  ? JSON.parse(localStorage.getItem("mytodos")) : [];
           ////  uporer function use korle  ak jinis bar bar use kora lagbe
 const todos = getTodosFromLocalstorage()
-todos.push({todoId, todoValue});
+todos.push({newTodo});
 localStorage.setItem("mytodos", JSON.stringify(todos));
 
 //// jokon ei store kora hoye jabe tokon  input  fhaka kore dibo
@@ -91,7 +102,7 @@ todoInput.value = "";
 
 const loadTodos =()=>{
     const todos = getTodosFromLocalstorage();
-    todos.map((todo)=> createTodo(todo.todoId, todo.todoValue ))
+    todos.map((todo)=> createTodo(todo));
 }
 
 
